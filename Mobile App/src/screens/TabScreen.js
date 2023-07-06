@@ -130,6 +130,7 @@ const TabScreen = ({ navigation }) => {
         renderScene={renderScene}
         shifting={true}
         activeColor={palette.system_accent1[5]}
+        
       />
     );
   } else {

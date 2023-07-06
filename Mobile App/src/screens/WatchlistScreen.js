@@ -14,6 +14,8 @@ const WatchlistScreen = ({ navigation }) => {
 
 	useEffect(() => setRefresh(!refresh), [isFocused]);
 
+  
+
 	if (Object.entries(storedData).length !== 0) {
 		return (
 			<SafeAreaView style={{ flex: 1 }}>

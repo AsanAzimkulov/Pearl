@@ -15,11 +15,13 @@ import SelectScreen from "./src/screens/SelectScreen";
 import TabScreen from "./src/screens/TabScreen";
 import WatchScreen from "./src/screens/WatchScreen";
 import WeCimaExtractionScreen from "./src/screens/WeCimaExtractionScreen";
+import appConfigService from "./src/services/AppConfigService";
 
 const Stack = createNativeStackNavigator();
 
 const MyStack = () => {
   const theme = useTheme();
+  if (appConfigService) console.log("true");
 
   return (
     <Stack.Navigator
@@ -31,6 +33,7 @@ const MyStack = () => {
         headerTintColor: theme.dark ? "white" : "black",
         headerShadowVisible: false,
         contentStyle: { backgroundColor: theme.colors.background },
+        animationEnabled: false,
       }}
     >
       <Stack.Screen
@@ -41,7 +44,7 @@ const MyStack = () => {
         }}
       />
       <Stack.Screen
-        name="Watch"
+        name="Смотреть фильм"
         component={WatchScreen}
         options={{
           headerShown: false,
