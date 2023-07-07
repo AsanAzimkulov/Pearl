@@ -10,7 +10,7 @@ class AppConfigService {
     this.config = (
       await axios.get(this.resourceUrl + this.configEndpoint)
     ).data[0];
-    
+
   }
 }
 

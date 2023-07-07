@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { ImageBackground, Pressable, StyleSheet, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import MovieService from "../services/MovieService";
 
-const ContentCard = ({ item, navigation, width, height }) => {
+const ContentCard = ({
+  item,
+  navigation,
+  width,
+  height,
+  onFavorites = () => {},
+}) => {
   const theme = useTheme();
+
+  const [isInFavorites, setIsInFavorites] = useState(
+    MovieService.isInFavoriteMovies(item)
+  );
 
   return (
     <Pressable
@@ -15,7 +27,31 @@ const ContentCard = ({ item, navigation, width, height }) => {
         imageStyle={{ borderRadius: 15 }}
         source={{ uri: item.info.poster }}
       >
-        <Text style={styles.year}>{item.info.year}</Text>
+        <View style={styles.header}>
+          <Pressable
+            onPress={() => {
+              setIsInFavorites((prev) => !prev);
+              MovieService.toggleMovieFromFavorites(item);
+              onFavorites();
+            }}
+          >
+            <Icon
+              name={isInFavorites ? "heart" : "cards-heart-outline"}
+              size={40}
+              color={"white"}
+              style={{
+                textShadowOffset: {
+                  width: 1,
+                  height: 1,
+                },
+                textShadowColor: "black",
+                textShadowRadius: 1,
+              }}
+            />
+          </Pressable>
+          <Text style={styles.year}>{item.info.year}</Text>
+        </View>
+
         {item.info.trailer ? <Text style={styles.trailer}>Трейлер</Text> : null}
         <View style={styles.ratingContainer}>
           <View style={[styles.rating, { marginBottom: 8 }]}>
@@ -46,8 +82,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Impact,Arial,sans-serif",
   },
-  year: {
+  header: {
     marginTop: 4,
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    paddingHorizontal: 6,
+  },
+  year: {
     textShadowOffset: {
       width: 1,
       height: 1,

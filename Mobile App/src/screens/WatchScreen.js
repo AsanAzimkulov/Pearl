@@ -21,47 +21,6 @@ const WatchScreen = ({ route, navigation }) => {
 
   const theme = useTheme();
 
-  // const resume = JSON.parse(Storage.getString("resume"));
-
-  // navigation.addListener("beforeRemove", () => {
-  // 	if (currentTime > 60) {
-  // 		Object.assign(resume, {
-  // 			[id + category]: { resume: currentTime, duration: duration },
-  // 		});
-  // 		if (Object.keys(resume).length === 501) {
-  // 			delete resume[Object.keys(resume)[0]];
-  // 		} else {
-  // 			// pass
-  // 		}
-  // 		Storage.set("resume", JSON.stringify(resume));
-  // 	} else {
-  // 		// pass
-  // 	}
-  // });
-
-  // const html = `<html>
-  // 					<head>
-  // 						<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
-  // 					</head>
-  // 					<body style="margin: 0;">
-  // 						<video id="player" style="width: 100%; height: 100%; background: #000;" controls autoplay>
-  // 							<source src="${item.link}">
-  // 						</video>
-
-  // 						<script>
-  // 							var player = document.getElementById("player");
-
-  // 							player.addEventListener("loadeddata", () => {
-  // 								window.ReactNativeWebView.postMessage("duration: " + String(player.duration));
-  // 								player.currentTime = ${9}
-  // 							}, false)
-
-  // 							player.addEventListener("timeupdate", () => {
-  // 								window.ReactNativeWebView.postMessage(player.currentTime);
-  // 							});
-  // 						</script>
-  // 					</body>
-  // 				</html>`;
 
   function renderProperty(jsx, property) {
     return item.info[property] ? jsx : null;
