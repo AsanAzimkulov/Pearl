@@ -18,7 +18,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "Топ Кадр - Подними Настроение!";
+    return "Pearl - Фильмы Сериалы Аниме";
   }
 
   /**

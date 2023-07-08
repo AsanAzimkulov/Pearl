@@ -2,7 +2,7 @@ import axios from "axios";
 import { Storage } from "../components/Storage";
 class MovieService {
   constructor() {
-    this.resourceUrl = "http://bazon.cc/api/search";
+    this.resourceUrl = "https://bazon.cc/api/search";
     this.token = "4d76c2a99eb3964a8eeaccaebcb0db35";
   }
 

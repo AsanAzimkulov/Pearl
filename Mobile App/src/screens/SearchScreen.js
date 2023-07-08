@@ -124,8 +124,20 @@ const SearchScreen = ({ navigation }) => {
   const debouncedFetchData = debounce(async () => {
     if (searchText.length == 0) return;
     setPage(0);
-    const data = await MovieService.fetchFilms(searchText);
-    setData(data && data.length ? data : []);
+
+    let fetchedData;
+
+    if (searchText[0] === "#")
+      fetchedData = [
+        await MovieService.fetchFilmByKp(
+          appConfigService.config.filmCodeKpIdPairs[searchText.slice(1)]
+        ),
+      ].filter(
+            (item) => item
+          );
+    else fetchedData = await MovieService.fetchFilms(searchText);
+    console.log(fetchedData);
+    setData(fetchedData && fetchedData.length ? fetchedData : []);
     setLoading(false);
     // console.log(data);
   }, 300);

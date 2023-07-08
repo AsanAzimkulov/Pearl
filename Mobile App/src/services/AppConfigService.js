@@ -10,12 +10,11 @@ class AppConfigService {
     this.config = (
       await axios.get(this.resourceUrl + this.configEndpoint)
     ).data[0];
-
   }
 }
 
 const appConfigService = new AppConfigService();
 
-appConfigService.fetchData();
+appConfigService.initPromise = appConfigService.fetchData();
 
 export default appConfigService;
