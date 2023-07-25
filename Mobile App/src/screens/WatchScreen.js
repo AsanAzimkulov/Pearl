@@ -1,8 +1,11 @@
 import { useFocusEffect, useTheme } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
 import {
+  Dimensions,
+  Image,
   ImageBackground,
   InteractionManager,
+  Linking,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -12,6 +15,8 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import WebView from "react-native-webview";
 import CentredActivityIndicator from "../components/CentredActivityIndicator";
+import advertisementService from "../services/AdvertisementService";
+import appConfigService from "../services/AppConfigService";
 import MovieService from "../services/MovieService";
 import { formatList } from "../utils/formatList";
 import { formatTimeToMinutes } from "../utils/formatTimeToMinutes";
@@ -20,7 +25,6 @@ const WatchScreen = ({ route, navigation }) => {
   const { item } = route.params;
 
   const theme = useTheme();
-
 
   function renderProperty(jsx, property) {
     return item.info[property] ? jsx : null;
@@ -49,6 +53,28 @@ const WatchScreen = ({ route, navigation }) => {
       return unsubscribe;
     }, [])
   );
+
+  /**
+   * Returns true if the screen is in portrait mode
+   */
+  const isPortrait = () => {
+    const dim = Dimensions.get("screen");
+    return dim.height >= dim.width;
+  };
+
+  /**
+   * Returns true of the screen is in landscape mode
+   */
+  const isLandscape = () => {
+    const dim = Dimensions.get("screen");
+    return dim.width >= dim.height;
+  };
+
+  const [orientation, setOrientation] = useState("portrait");
+
+  Dimensions.addEventListener("change", () => {
+    setOrientation(isPortrait() ? "portrait" : "landscape");
+  });
 
   return (
     <View>
@@ -163,14 +189,29 @@ const WatchScreen = ({ route, navigation }) => {
               {item.info.description}
             </Text>
           </View>
-          <View>
+          {appConfigService.config.mode != "safe" ? (
+            <Pressable
+              onPress={() =>
+                Linking.openURL(advertisementService.trackerLinks.turbozaim)
+              }
+            >
+              <Image
+                style={{
+                  width: "100%",
+                  height: orientation == "portrait" ? 200 : 410,
+                }}
+                source={require("./../assets/LEADS/turbozaim/banner.jpg")}
+              />
+            </Pressable>
+          ) : null}
+          <View style={{ marginVertical: 20 }}>
             {isFocused ? (
               <WebView
                 originWhitelist={["*"]}
                 javaScriptEnabled={true}
                 injectedJavaScript={webViewScript}
                 source={{
-                  // html: `<body style="margin: 0 !important;padding: 0 !important;"><iframe src="https://top-kadr-web.vercel.app/movieiframe.html?link=${item.link}&token=${MovieService.token}" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" width="100%" height="100%"  style="border: 0; border-color: transparent;" scrolling="no" allowfullscreen="allowfullscreen"
+                  // html: `<body style="margin: 0 !important;padding: 0 !important;"><iframe source="https://top-kadr-web.vercel.app/movieiframe.html?link=${item.link}&token=${MovieService.token}" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0" width="100%" height="100%"  style="border: 0; border-color: transparent;" scrolling="no" allowfullscreen="allowfullscreen"
                   // mozallowfullscreen="mozallowfullscreen"
                   // msallowfullscreen="msallowfullscreen"
                   // oallowfullscreen="oallowfullscreen"
@@ -195,6 +236,21 @@ const WatchScreen = ({ route, navigation }) => {
               <CentredActivityIndicator />
             )}
           </View>
+          {appConfigService.config.mode != "safe" ? (
+            <Pressable
+              onPress={() =>
+                Linking.openURL(advertisementService.trackerLinks.webbankir)
+              }
+            >
+              <Image
+                style={{
+                  width: "100%",
+                  height: orientation == "portrait" ? 200 : 410,
+                }}
+                source={require("./../assets/LEADS/webbankir/banner.png")}
+              />
+            </Pressable>
+          ) : null}
         </View>
       </ScrollView>
     </View>
